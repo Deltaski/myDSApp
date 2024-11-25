@@ -1,0 +1,522 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+header {
+    background: #007BFF;  /* Colore blu */
+    color: #fff;
+    padding: 10px 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background: #f9f9f9;
+}
+
+.hero h1 {
+    font-size: 2.5em;
+    color: #007BFF;  /* Colore blu */
+}
+
+.hero p {
+    margin: 20px 0;
+    font-size: 1.2em;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #007BFF;  /* Colore blu */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.games-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.game {
+    flex: 1;
+    min-width: 250px;
+    background: #f4f4f4;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.accessibility ul {
+    list-style-type: disc;
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+/* Stile per il logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.site-logo {
+    width: 50px;
+    height: auto;
+}
+
+.hero-image {
+    max-width: 600px;
+    margin: 20px auto;
+    display: block;
+}
+
+.about-image {
+    margin-top: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+}
+
+/* Centra le sezioni */
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Centra il contenuto per le sezioni: Chi Siamo, Giochi Educativi, Community e Forum */
+section h2, section p {
+    text-align: center;
+}
+
+.games-container, .community-features, .about-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1200px;  /* Limita la larghezza massima */
+    margin: 0 auto;  /* Centra il contenuto */
+}
+
+.maps-container, .library-container, .subscriptions-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    max-width: 1200px;  /* Limita la larghezza massima */
+    margin: 0 auto;  /* Centra il contenuto */
+}
+
+.maps-container img, .library-container img, .subscriptions-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.maps, .library, .subscriptions {
+    text-align: center;
+    padding: 50px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Aggiungi un padding uniforme per tutte le sezioni */
+.section-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+}
+
+/* Abbonamenti */
+.subscriptions {
+    background: #007BFF;  /* Sfondo blu */
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombra leggera */
+}
+
+.subscriptions h2 {
+    font-size: 2.5em;
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.subscriptions-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 20px 0;
+}
+
+.subscription-plan {
+    background: #fff;
+    padding: 25px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombra per evidenziare */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Effetto hover */
+}
+
+.subscription-plan:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombra più forte */
+}
+
+.subscription-plan h3 {
+    font-size: 1.6em;
+    color: #007BFF;  /* Colore blu */
+    margin-bottom: 10px;
+}
+
+.subscription-plan ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.subscription-plan ul li {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.subscription-plan p {
+    font-size: 1.3em;
+    margin-top: 20px;
+    font-weight: bold;
+    color: #007BFF;  /* Colore blu per il prezzo */
+}
+
+.subscription-plan.premium {
+    background: #e3f2fd;  /* Colore chiaro per il piano premium */
+    border-color: #007BFF;  /* Bordo blu */
+}
+
+.subscription-plan.premium h3 {
+    color: #007BFF;  /* Titolo blu per piano premium */
+}
+
+.subscription-plan.premium p {
+    color: #007BFF;  /* Prezzo blu per piano premium */
+}
+
+/* Sezione Contattaci */
+.contact {
+    text-align: center;
+    padding: 50px 20px;
+    background: #f1f1f1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.contact h2 {
+    font-size: 2.5em;
+    color: #007BFF;  /* Colore blu */
+    margin-bottom: 20px;
+}
+
+.contact p {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    padding: 10px 20px;
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+/* Responsività */
+@media (max-width: 768px) {
+    .contact h2 {
+        font-size: 2em;
+    }
+
+    .contact p {
+        font-size: 1.1em;
+    }
+
+    form {
+        width: 90%;
+    }
+}
+
+/* Sezione Tutor */
+.tutors {
+    text-align: center;
+    padding: 50px 20px;
+    background: #f9f9f9;
+}
+
+.tutors h2 {
+    font-size: 2.5em;
+    color: #007BFF;
+    margin-bottom: 20px;
+}
+
+.tutors p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+.filter {
+    margin-bottom: 30px;
+}
+
+.filter select {
+    padding: 10px;
+    font-size: 1em;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.tutors-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 0 auto;
+}
+
+.tutor {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tutor:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.tutor img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.tutor h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.tutor p {
+    font-size: 1.1em;
+    color: #555;
+}
+
+.tutor .btn {
+    margin-top: 15px;
+}
+
+/* Modale di contatto Tutor */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Miglioramenti per i moduli */
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    background: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+form button:hover {
+    background: #0056b3;
+}
+
+.memory-card {
+    background-color: #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;  /* Aggiunta la transizione per la rotazione */
+    position: relative;
+}
+
+.memory-card img {
+    width: 80%;   /* Aggiunto per migliorare la visibilità dell'immagine */
+    height: 80%;
+    object-fit: cover;
+    transition: transform 0.3s ease;  /* Aggiunto per un effetto di transizione più fluido */
+}
+
+.memory-card.flipped {
+    background-color: #f1f1f1;
+}
+
+.memory-card.matched {
+    background-color: green;
+}
+
+#memory-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-items: center;  /* Allinea le carte in modo più centrato */
+}
+
+#restart-game {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;  /* Aggiunta per angoli arrotondati */
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#restart-game:hover {
+    background-color: #0056b3;
+}
+
+#memory-board .memory-card {
+    transition: transform 0.5s ease;  /* Più transizione per una rotazione più fluida */
+}
+
+.memory-card.flipped img {
+    transform: rotateY(180deg);  /* Effetto di rotazione quando la carta è girata */
+}

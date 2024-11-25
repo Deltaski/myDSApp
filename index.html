@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSApp - Supporto per i DSA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="immagini/stemma.JPG" type="image/png">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="immagini/stemma.JPG" alt="DSApp Logo" class="site-logo">
+                <h1>myDSApp</h1>
+            </div>
+            <ul class="navbar">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">Chi siamo</a></li>
+                <li><a href="#games">Giochi</a></li>
+                <li><a href="#maps">Mappe Concettuali</a></li>
+                <li><a href="#library">Libreria di Template</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#accessibility">Accessibilità</a></li>
+                <li><a href="#contact">Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h1>Benvenuto su myDSApp!</h1>
+        <p>Un'app per studenti con DSA: strumenti, giochi e una community per il tuo successo!</p>
+        <a href="#about" class="btn">Scopri di più</a>
+        <img src="immagini/bimbo.JPG" alt="Bambino felice che utilizza un tablet" class="hero-image" width="300">
+    </section>
+
+    <section id="about" class="about">
+        <h2>Chi siamo</h2>
+        <p>myDSApp offre soluzioni per studenti con DSA attraverso giochi educativi, strumenti digitali e risorse personalizzate.</p>
+    </section>
+
+    
+    <section id="games" class="games">
+        <h2>Giochi Educativi</h2>
+        <p>Potenzia la tua memoria, lettura e concentrazione con i nostri giochi interattivi.</p>
+        <div class="games-container">
+            <div class="game">
+                <img src="immagini/memory-game.jpg" alt="Gioco della memoria" width="200">
+                <h3>Gioco della Memoria</h3>
+                <p>Allenati a ricordare le sequenze di immagini e parole!</p>
+                <button class="btn" id="start-memory-game">Gioca ora</button>
+            </div>
+            <div class="game">
+                <img src="immagini/lettura.jpg" alt="Giochi di lettura" width="200">
+                <h3>Giochi di Lettura</h3>
+                <p>Esplora le nostre attività per migliorare la velocità di lettura.</p>
+                <button class="btn" id="start-reading-game">Gioca ora</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Sezione del gioco della memoria che sarà visibile solo quando il gioco è attivato -->
+    <div id="memory-game-container" style="display:none;">
+        <h3>Gioco della Memoria</h3>
+        <p>Trova le coppie di carte corrispondenti! Buona fortuna!</p>
+        <div id="memory-board" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+            <!-- Le carte del gioco verranno generate qui tramite JavaScript -->
+        </div>
+        <button id="restart-game" style="display: none;">Ricomincia</button>
+    </div>
+    
+    <!-- Sezione del gioco di lettura che sarà visibile solo quando il gioco è attivato -->
+    <div id="reading-game-container" style="display:none;">
+        <h3>Gioco di Lettura</h3>
+        <p>Completa le frasi scegliendo la parola giusta!</p>
+        
+        <!-- Timer e Vite -->
+        <div id="game-info">
+            <p>Tempo: <span id="timer">0</span> secondi</p>
+            <p>Vite: <span id="lives">3</span></p>
+        </div>
+        
+        <div id="reading-question-container">
+            <!-- Le domande e le opzioni verranno generate qui tramite JavaScript -->
+        </div>
+        
+        <button id="restart-reading-game" style="display: none;">Ricomincia</button>
+    </div>
+    
+    <script>
+        // Avvio del gioco della memoria
+        document.getElementById("start-memory-game").addEventListener("click", function() {
+            document.querySelector("#games").style.display = "none";  // Nascondi la sezione dei giochi
+            document.getElementById("memory-game-container").style.display = "block"; // Mostra il gioco della memoria
+            startMemoryGame();  // Avvia il gioco della memoria
+        });
+    
+        // Funzione per iniziare il gioco della memoria
+        function startMemoryGame() {
+            const cards = [
+                { id: 1, imgSrc: 'immagini/toro.jpeg', matched: false },
+                { id: 2, imgSrc: 'immagini/toro.jpeg', matched: false },
+                { id: 3, imgSrc: 'immagini/canarino.jpeg', matched: false },
+                { id: 4, imgSrc: 'immagini/canarino.jpeg', matched: false },
+                { id: 5, imgSrc: 'immagini/cane.jpeg', matched: false },
+                { id: 6, imgSrc: 'immagini/cane.jpeg', matched: false },
+                { id: 7, imgSrc: 'immagini/gruppo.jpeg', matched: false },
+                { id: 8, imgSrc: 'immagini/gruppo.jpeg', matched: false },
+            ];
+    
+            let flippedCards = [];
+            let matchedCards = 0;
+    
+            // Mescola le carte
+            cards.sort(() => Math.random() - 0.5);
+    
+            // Mostra le carte
+            const board = document.getElementById('memory-board');
+            board.innerHTML = '';  // Pulisci la bacheca del gioco
+    
+            cards.forEach((card) => {
+                const cardElement = document.createElement('div');
+                cardElement.classList.add('memory-card');
+                cardElement.setAttribute('data-id', card.id);
+                cardElement.setAttribute('data-imgSrc', card.imgSrc);
+                cardElement.style.width = '100px';
+                cardElement.style.height = '100px';
+                cardElement.style.backgroundColor = '#ccc';
+                cardElement.style.display = 'flex';
+                cardElement.style.justifyContent = 'center';
+                cardElement.style.alignItems = 'center';
+                cardElement.style.cursor = 'pointer';
+                cardElement.innerHTML = '<img src="immagini/back-of-card.jpg" style="width: 80%; height: 80%;">';  // Immagine sul retro della carta
+                cardElement.addEventListener('click', flipCard);  // Associa l'evento di click alla carta
+                board.appendChild(cardElement);
+            });
+    
+            // Funzione per girare una carta
+            function flipCard() {
+                if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
+                    const imgElement = this.querySelector('img');
+                    imgElement.src = this.getAttribute('data-imgSrc');  // Mostra l'immagine della carta
+                    this.classList.add('flipped');
+                    flippedCards.push(this);
+    
+                    if (flippedCards.length === 2) {
+                        setTimeout(() => checkMatch(), 1000);  // Controlla la corrispondenza dopo 1 secondo
+                    }
+                }
+            }
+    
+            // Controlla se due carte sono uguali
+            function checkMatch() {
+                const [firstCard, secondCard] = flippedCards;
+    
+                if (firstCard.getAttribute('data-imgSrc') === secondCard.getAttribute('data-imgSrc')) {
+                    // Se le carte sono uguali, colorale di verde
+                    firstCard.style.backgroundColor = 'green';
+                    secondCard.style.backgroundColor = 'green';
+                    firstCard.classList.add('matched');
+                    secondCard.classList.add('matched');
+                    matchedCards += 2;
+                    if (matchedCards === cards.length) {
+                        setTimeout(() => alert("Congratulazioni, hai vinto!"), 500);
+                        document.getElementById('restart-game').style.display = 'block';
+                    }
+                } else {
+                    // Se le carte non corrispondono, rigirale dopo un breve ritardo
+                    setTimeout(() => {
+                        firstCard.querySelector('img').src = 'immagini/back-of-card.jpg'; // Mostra il retro della carta
+                        secondCard.querySelector('img').src = 'immagini/back-of-card.jpg'; // Mostra il retro della carta
+                        firstCard.classList.remove('flipped');
+                        secondCard.classList.remove('flipped');
+                    }, 1000);  // Ritarda di 1 secondo per permettere all'utente di vedere cosa è stato girato
+                }
+    
+                flippedCards = [];  // Resetta il contenitore delle carte girate
+            }
+    
+            // Funzione per ricominciare il gioco
+            document.getElementById('restart-game').addEventListener('click', function() {
+                location.reload();  // Ricarica la pagina per ricominciare il gioco
+            });
+        }
+    
+        // Avvio del gioco di lettura
+        document.getElementById("start-reading-game").addEventListener("click", function() {
+            document.querySelector("#games").style.display = "none";  // Nascondi la sezione dei giochi
+            document.getElementById("reading-game-container").style.display = "block"; // Mostra il gioco della lettura
+            startReadingGame();  // Avvia il gioco della lettura
+        });
+    
+        // Funzione per iniziare il gioco della lettura con timer e vite
+        function startReadingGame() {
+            const questions = [
+                {
+                    question: "Il cane corre _____ parco.",
+                    options: ['nel', 'su', 'tra'],
+                    correctAnswer: 'nel'
+                },
+                {
+                    question: "Il gatto dorme _____ divano.",
+                    options: ['sul', 'nel', 'fra'],
+                    correctAnswer: 'sul'
+                },
+                {
+                    question: "Io mangio _____ pizza.",
+                    options: ['la', 'le', 'il'],
+                    correctAnswer: 'la'
+                },
+                {
+                    question: "Lei è molto _____ a scuola.",
+                    options: ['brava', 'bravo', 'bravi'],
+                    correctAnswer: 'brava'
+                }
+            ];
+    
+            let currentQuestionIndex = 0;
+            let lives = 3;
+            let timer = 0;
+            let timerInterval;
+            
+            // Mostra la prima domanda
+            function displayQuestion() {
+                const question = questions[currentQuestionIndex];
+                const questionContainer = document.getElementById('reading-question-container');
+                questionContainer.innerHTML = `
+                    <p>${question.question}</p>
+                    <div>
+                        ${question.options.map(option => `<button class="option-btn">${option}</button>`).join('')}
+                    </div>
+                `;
+    
+                // Aggiungi l'evento click alle opzioni
+                document.querySelectorAll('.option-btn').forEach((button) => {
+                    button.addEventListener('click', function() {
+                        if (this.textContent === question.correctAnswer) {
+                            currentQuestionIndex++;
+                            if (currentQuestionIndex < questions.length) {
+                                displayQuestion();
+                            } else {
+                                alert("Hai vinto il gioco di lettura!");
+                                document.getElementById('restart-reading-game').style.display = 'block';
+                                clearInterval(timerInterval);
+                            }
+                        } else {
+                            lives--;
+                            document.getElementById('lives').textContent = lives;
+                            if (lives === 0) {
+                                alert("Hai perso! Riprova.");
+                                document.getElementById('restart-reading-game').style.display = 'block';
+                                clearInterval(timerInterval);
+                            } else {
+                                displayQuestion();  // Mostra la stessa domanda
+                            }
+                        }
+                    });
+                });
+            }
+    
+            // Funzione per gestire il timer
+            function startTimer() {
+                timerInterval = setInterval(() => {
+                    timer++;
+                    document.getElementById('timer').textContent = timer;
+                }, 1000);
+            }
+    
+            // Avvia il gioco
+            startTimer();
+            displayQuestion();
+    
+            // Funzione per ricominciare il gioco
+            document.getElementById('restart-reading-game').addEventListener('click', function() {
+                location.reload();  // Ricarica la pagina per ricominciare il gioco
+            });
+        }
+    </script>
+    
+    
+    
+    
+    
+
+    <section id="maps" class="maps">
+        <h2>Mappe Concettuali</h2>
+        <p>Accedi a strumenti per creare, salvare e condividere mappe concettuali personalizzate per le tue esigenze di apprendimento.</p>
+        <div class="maps-container">
+            <img src="immagini/mappe.jpg" alt="Esempio di mappa concettuale" width="200">
+            <button class="btn">Crea una mappa</button>
+        </div>
+    </section>
+
+    <section id="library" class="library">
+        <h2>Libreria di Template</h2>
+        <p>Scegli tra i nostri template progettati per il supporto educativo: riassunti, schede di lettura e altro.</p>
+        <div class="library-container">
+            <div class="template">
+                <h3>Riassunti</h3>
+                <button class="btn">Scegli</button>
+            </div>
+            <div class="template">
+                <h3>Schede di Lettura</h3>
+                <button class="btn">Scegli</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="community" class="community">
+        <h2>Community</h2>
+        <p>Partecipa alla nostra community inclusiva per condividere esperienze e trovare supporto.</p>
+        <div class="community-features">
+            <div class="feature">
+                <img src="immagini/forum.jpeg" alt="Forum della community" width="200">
+                <h3>Forum</h3>
+                <p>Partecipa a discussioni e confrontati con altri utenti.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="tutors" class="tutors">
+        <h2>I nostri Tutor</h2>
+        <p>Scopri i tutor qualificati disponibili per aiutarti a superare le difficoltà scolastiche. Scegli il tutor più adatto alle tue esigenze.</p>
+        
+        <!-- Filtro per materia -->
+        <div class="filter">
+            <label for="subject">Filtra per materia: </label>
+            <select id="subject" name="subject">
+                <option value="all">Tutti</option>
+                <option value="math">Matematica</option>
+                <option value="reading">Lettura</option>
+                <option value="science">Scienze</option>
+            </select>
+        </div>
+
+        <div class="tutors-container">
+            <div class="tutor">
+                <img src="immagini/maria.jpeg" alt="Maria Rossi">
+                <h3>Maria Rossi</h3>
+                <p>Tutor di matematica e scienze. Esperienza con studenti DSA.</p>
+                <p><strong>Disponibile: Lun-Ven</strong></p>
+                <button class="btn" onclick="openModal('Maria Rossi', 'matematica')">Contatta il Tutor</button>
+            </div>
+            <div class="tutor">
+                <img src="immagini/giuseppe.jpg" alt="Giuseppe Bianchi">
+                <h3>Giuseppe Bianchi</h3>
+                <p>Tutor di lettura e comprensione del testo. Specializzato in DSA.</p>
+                <p><strong>Disponibile: Mar-Gio</strong></p>
+                <button class="btn" onclick="openModal('Giuseppe Bianchi', 'lettura')">Contatta il Tutor</button>
+            </div>
+        </div>
+
+        <!-- Modulo di richiesta tutor -->
+        <h3>Richiedi un Tutor</h3>
+        <form action="#" method="post">
+            <input type="text" name="name" placeholder="Il tuo nome" required>
+            <input type="email" name="email" placeholder="La tua email" required>
+            <textarea name="message" placeholder="Descrivi il tipo di aiuto di cui hai bisogno" required></textarea>
+            <button type="submit" class="btn">Invia richiesta</button>
+        </form>
+    </section>
+
+    <!-- Modale di contatto Tutor -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+            <p><strong>Disponibilità: </strong><span id="modal-availability"></span></p>
+            <form action="#" method="post">
+                <input type="text" name="student-name" placeholder="Il tuo nome" required>
+                <input type="email" name="student-email" placeholder="La tua email" required>
+                <textarea name="student-message" placeholder="Messaggio per il tutor" required></textarea>
+                <button type="submit" class="btn">Invia richiesta</button>
+            </form>
+        </div>
+    </div>
+
+    <section id="subscriptions" class="subscriptions">
+        <h2>Abbonamenti</h2>
+        <p>Scopri i nostri piani di abbonamento per accedere a tutte le funzionalità avanzate di myDSApp.</p>
+        <div class="subscriptions-container">
+            <!-- Piano Gratuito -->
+            <div class="subscription-plan">
+                <h3>Piano Gratuito</h3>
+                <ul>
+                    <li>1 gioco educativo al giorno per apprendere in modo divertente e stimolante.</li>
+                    <li>Accesso alla community inclusiva per supporto, confronto e condivisione di esperienze.</li>
+                </ul>
+                <p><strong>Gratis</strong></p>
+            </div>
+            <!-- Piano Premium -->
+            <div class="subscription-plan premium">
+                <h3>Piano Premium</h3>
+                <ul>
+                    <li>Accesso illimitato a video educativi e giochi personalizzati.</li>
+                    <li>Funzionalità avanzate per soddisfare le esigenze specifiche degli studenti con DSA.</li>
+                    <li>Supporto prioritario e risorse aggiuntive.</li>
+                </ul>
+                <p><strong>€18 / mese</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sezione Contattaci -->
+    <section class="contact">
+        <h2>Contattaci</h2>
+        <p>Se hai domande, commenti o richieste, compila il modulo qui sotto e ti risponderemo il prima possibile!</p>
+
+        <form action="#" method="POST">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" required placeholder="Il tuo nome">
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="La tua email">
+
+            <label for="message">Messaggio</label>
+            <textarea id="message" name="message" required placeholder="Il tuo messaggio" rows="5"></textarea>
+
+            <button type="submit">Invia Messaggio</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 myDSApp. Tutti i diritti riservati.</p>
+    </footer>
+</body>
+</html>
