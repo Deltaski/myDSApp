@@ -19,6 +19,7 @@
                 <li><a href="#about">Chi siamo</a></li>
                 <li><a href="#games">Giochi</a></li>
                 <li><a href="#maps">Mappe Concettuali</a></li>
+                <li><a href="#videos">Videoregistrazioni</a></li>
                 <li><a href="#library">Libreria di Template</a></li>
                 <li><a href="#community">Community</a></li>
                 <li><a href="#accessibility">Accessibilità</a></li>
@@ -56,6 +57,13 @@
                 <p>Esplora le nostre attività per migliorare la velocità di lettura.</p>
                 <button class="btn" id="start-reading-game">Gioca ora</button>
             </div>
+            <div class="game">
+                <img src="immagini/math-game.jpg" alt="Gioco di Matematica" width="200">
+                <h3>Gioco di Matematica</h3>
+                <p>Risolvi operazioni matematiche per allenare la tua mente!</p>
+                <button class="btn" id="start-math-game">Gioca ora</button>
+            </div>
+            
         </div>
     </section>
     
@@ -85,6 +93,16 @@
         </div>
         
         <button id="restart-reading-game" style="display: none;">Ricomincia</button>
+    </div>
+
+    <div id="math-game-container" style="display:none;">
+        <h3>Gioco di Matematica</h3>
+        <p>Risolvi le operazioni matematiche il più velocemente possibile!</p>
+        <div id="math-question" style="font-size: 20px; font-weight: bold; margin: 20px;"></div>
+        <input type="number" id="math-answer" placeholder="Inserisci la tua risposta">
+        <button id="submit-math-answer">Conferma</button>
+        <p id="math-message" style="font-size: 16px; margin: 20px;"></p>
+        <button id="restart-math-game" style="display: none;">Ricomincia</button>
     </div>
     
     <script>
@@ -275,6 +293,74 @@
                 location.reload();  // Ricarica la pagina per ricominciare il gioco
             });
         }
+            // Avvio del gioco di matematica
+    document.getElementById("start-math-game").addEventListener("click", function () {
+        document.querySelector("#games").style.display = "none";  // Nascondi la sezione principale
+        document.getElementById("math-game-container").style.display = "block"; // Mostra il gioco di matematica
+        startMathGame();  // Avvia il gioco di matematica
+    });
+
+    // Funzione per iniziare il gioco di matematica
+    function startMathGame() {
+        let correctAnswer;
+        let score = 0;
+
+        // Genera una nuova domanda
+        function generateQuestion() {
+            const num1 = Math.floor(Math.random() * 10) + 1; // Numero casuale tra 1 e 10
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            const operations = ['+', '-', '*']; // Operazioni supportate
+            const randomOperation = operations[Math.floor(Math.random() * operations.length)];
+
+            // Calcola la risposta corretta
+            switch (randomOperation) {
+                case '+':
+                    correctAnswer = num1 + num2;
+                    break;
+                case '-':
+                    correctAnswer = num1 - num2;
+                    break;
+                case '*':
+                    correctAnswer = num1 * num2;
+                    break;
+            }
+
+            // Mostra la domanda
+            const questionElement = document.getElementById('math-question');
+            questionElement.textContent = `${num1} ${randomOperation} ${num2}`;
+            document.getElementById('math-message').textContent = ''; // Resetta il messaggio
+            document.getElementById('math-answer').value = ''; // Resetta il campo di input
+        }
+
+        // Controlla la risposta inserita dall'utente
+        document.getElementById("submit-math-answer").addEventListener("click", function () {
+            const userAnswer = parseInt(document.getElementById("math-answer").value);
+            const messageElement = document.getElementById("math-message");
+
+            if (isNaN(userAnswer)) {
+                messageElement.textContent = "Inserisci un numero valido!";
+                messageElement.style.color = "red";
+            } else if (userAnswer === correctAnswer) {
+                score++;
+                messageElement.textContent = `Corretto! Punteggio: ${score}`;
+                messageElement.style.color = "green";
+                generateQuestion(); // Genera una nuova domanda
+            } else {
+                messageElement.textContent = `Sbagliato! La risposta corretta era ${correctAnswer}. Punteggio finale: ${score}`;
+                messageElement.style.color = "red";
+                document.getElementById("restart-math-game").style.display = "block";
+            }
+        });
+
+        // Funzione per ricominciare il gioco
+        document.getElementById("restart-math-game").addEventListener("click", function () {
+            score = 0; // Resetta il punteggio
+            generateQuestion(); // Genera una nuova domanda
+            document.getElementById("restart-math-game").style.display = "none";
+        });
+
+        generateQuestion(); // Genera la prima domanda
+    }
     </script>
     
     
@@ -282,14 +368,80 @@
     
     
 
+    
     <section id="maps" class="maps">
         <h2>Mappe Concettuali</h2>
         <p>Accedi a strumenti per creare, salvare e condividere mappe concettuali personalizzate per le tue esigenze di apprendimento.</p>
         <div class="maps-container">
             <img src="immagini/mappe.jpg" alt="Esempio di mappa concettuale" width="200">
-            <button class="btn">Crea una mappa</button>
+            <button class="btn" id="create-map-btn">Crea una mappa</button>
+            <input type="file" id="image-upload" style="display: none;" accept="image/*">
+            <label for="image-upload" class="btn">Carica Immagine</label>
+        </div>
+
+        <div id="map-editor" style="display: none;">
+            <h3>Editor di Mappe Concettuali</h3>
+            <p>Carica la tua mappa concettuale tramite immagine o crea un nuovo schema.</p>
+            <div id="diagramDiv">
+                <!-- L'immagine caricata apparirà qui -->
+                
+            </div>
+            <button id="save-map-btn" class="btn">Salva Mappa</button>
+            <button id="load-map-btn" class="btn">Carica Mappa</button>
         </div>
     </section>
+
+    <script>
+        document.getElementById('create-map-btn').addEventListener('click', function () {
+            document.querySelector('.maps-container').style.display = 'none';
+            document.getElementById('map-editor').style.display = 'block';
+        });
+
+        // Funzione per caricare l'immagine
+        document.getElementById('image-upload').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const image = document.getElementById('mapImage');
+                image.src = e.target.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Funzione di salvataggio (esempio di come salvare l'immagine come base64)
+        document.getElementById('save-map-btn').addEventListener('click', function () {
+            const image = document.getElementById('mapImage');
+            if (image.src) {
+                const imageData = image.src; // Salva l'immagine come base64
+                localStorage.setItem('savedMap', imageData);  // Salva nel localStorage o invia a un server
+                alert('Mappa salvata!');
+            } else {
+                alert('Carica un\'immagine prima di salvare.');
+            }
+        });
+
+        // Funzione di caricamento (carica l'immagine salvata)
+        document.getElementById('load-map-btn').addEventListener('click', function () {
+            const savedMap = localStorage.getItem('savedMap');
+            if (savedMap) {
+                const image = document.getElementById('mapImage');
+                image.src = savedMap;
+                alert('Mappa caricata!');
+            } else {
+                alert('Nessuna mappa salvata trovata.');
+            }
+        });
+    </script>
+
+    
+    
+    
+    
+    
 
     <section id="library" class="library">
         <h2>Libreria di Template</h2>
@@ -310,14 +462,23 @@
         <h2>Community</h2>
         <p>Partecipa alla nostra community inclusiva per condividere esperienze e trovare supporto.</p>
         <div class="community-features">
-            <div class="feature">
+            <div class="feature" id="forum-feature">
                 <img src="immagini/forum.jpeg" alt="Forum della community" width="200">
                 <h3>Forum</h3>
                 <p>Partecipa a discussioni e confrontati con altri utenti.</p>
             </div>
         </div>
     </section>
-
+    
+    <!-- Modale per la beta -->
+    <div id="beta-modal" class="modal">
+        <div class="modal-content">
+            <h2>Benvenuto nella Beta!</h2>
+            <p>Hai accesso alla nostra community in fase beta. Inizia a partecipare al forum e ad interagire con altri utenti.</p>
+            <button id="close-modal-btn">Chiudi</button>
+        </div>
+    </div>
+    
     <section id="tutors" class="tutors">
         <h2>I nostri Tutor</h2>
         <p>Scopri i tutor qualificati disponibili per aiutarti a superare le difficoltà scolastiche. Scegli il tutor più adatto alle tue esigenze.</p>
@@ -376,6 +537,30 @@
         </div>
     </div>
 
+    <!-- Sezione Video -->
+<section id="videos" class="videos">
+    <h2>Videoregistrazioni</h2>
+    <p>Guarda i nostri video educativi e tutorial!</p>
+    <div class="videos-container">
+        <div class="video">
+            <h3>Titolo del Video 1</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/tuoVideoID1" 
+                    title="YouTube video player" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+        </div>
+        <div class="video">
+            <h3>Titolo del Video 2</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/tuoVideoID2" 
+                    title="YouTube video player" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+        </div>
+        <!-- Aggiungi altri video come necessario -->
+    </div>
+</section>
+
+
     <section id="subscriptions" class="subscriptions">
         <h2>Abbonamenti</h2>
         <p>Scopri i nostri piani di abbonamento per accedere a tutte le funzionalità avanzate di myDSApp.</p>
@@ -384,8 +569,8 @@
             <div class="subscription-plan">
                 <h3>Piano Gratuito</h3>
                 <ul>
-                    <li>1 gioco educativo al giorno per apprendere in modo divertente e stimolante.</li>
-                    <li>Accesso alla community inclusiva per supporto, confronto e condivisione di esperienze.</li>
+                    <li>Giochi educativi, per apprendere in modo divertente e stimolante, con limitazioni.</li>
+                    <li>Accesso alla community inclusiva per supporto, confronto e condivisione di mappe concettuali/appunti ed esperienze tra studenti, genitori ed educatori.</li>
                 </ul>
                 <p><strong>Gratis</strong></p>
             </div>
@@ -397,13 +582,13 @@
                     <li>Funzionalità avanzate per soddisfare le esigenze specifiche degli studenti con DSA.</li>
                     <li>Supporto prioritario e risorse aggiuntive.</li>
                 </ul>
-                <p><strong>€18 / mese</strong></p>
+                <p><strong>€9.99 / mese</strong></p>
             </div>
         </div>
     </section>
 
     <!-- Sezione Contattaci -->
-    <section class="contact">
+    <section class="contact" id="contact">
         <h2>Contattaci</h2>
         <p>Se hai domande, commenti o richieste, compila il modulo qui sotto e ti risponderemo il prima possibile!</p>
 
